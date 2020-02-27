@@ -1,0 +1,40 @@
+-- -----------------------------------------------------
+-- Schema t_govtech
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `t_govtech`;
+USE `t_govtech` ;
+
+-- -----------------------------------------------------
+-- Table `t_govtech`.`student`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `t_govtech`.`student` (
+  `id` VARCHAR(255) NOT NULL,
+  `suspend` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`));
+
+-- -----------------------------------------------------
+-- Table `t_govtech`.`teacher`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `t_govtech`.`teacher` (
+  `id` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- -----------------------------------------------------
+-- Table `t_govtech`.`registry`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `t_govtech`.`registry` (
+  `student_id` VARCHAR(255) NOT NULL,
+  `teacher_id` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`student_id`, `teacher_id`),
+  INDEX `teacher_id_fk_idx` (`teacher_id` ASC),
+  INDEX `student_id_fk_idx` (`student_id` ASC),
+  CONSTRAINT `student_id_fk`
+    FOREIGN KEY (`student_id`)
+    REFERENCES `t_govtech`.`student` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `teacher_id_fk`
+    FOREIGN KEY (`teacher_id`)
+    REFERENCES `t_govtech`.`teacher` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
